@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    h1 #{title}
+    if carrito.length > 0
+        .procesar-compra-container
+            form(action='/detalle-compra' method='GET')
+                button(type='submit' class='procesar-compra-button') Procesar compra
+        table
+            thead
+                tr
+                    th Producto
+                    th Cantidad
+                    th Precio unitario
+                    th SubTotal
+                    th Acciones
+            tbody
+                each item in carrito
+                    tr
+                        td= item.nombre
+                        td= item.cantidad
+                        td= `\$ ${item.precio}`
+                        td= `\$ ${(item.precio * item.cantidad)}`
+                        td
+                            .action-buttons
+                                form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
+                                    button(type='submit') Eliminar
+                                form(action=`/actualizar-cantidad/${item.id}/-1`, method='POST')
+                                    button(type='submit') -
+                                span= item.quantity
+                                form(action=`/actualizar-cantidad/${item.id}/1`, method='POST')
+                                    button(type='submit') +
+    else
+        p No hay productos en el carrito.

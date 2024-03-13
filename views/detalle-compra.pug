@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1 #{title}
+    if carrito.length > 0
+        table
+            thead
+                tr
+                    th Producto
+                    th Cantidad
+                    th Precio unitario
+                    th SubTotal
+                    th IVA
+                    th Precio total
+            tbody
+                each item in carrito
+                    tr
+                        td= item.nombre
+                        td= item.cantidad
+                        td= `\$ ${item.precio}`
+                        td= `\$ ${(item.precio * item.cantidad)}`
+                        td= "16%"
+                        td= `\$ ${(item.precio * item.cantidad * 1.16).toFixed(2)} (IVA incluido)`
+        .button-container
+            form(action='/procesar-compra' method='POST')
+                button.button-confirm(type='submit') Confirmar compra
+                a.button-return(href='/carrito') Volver al carrito
+    else
+        p No hay productos en el carrito.

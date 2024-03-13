@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 #{title}
+  h2 #{product.name}
+  img(src=`/images/${product.image}`, alt=product.name)
+  p Descripción: #{product.description}
+  p Disponible: #{product.quantity}
+  p Precio: #{product.price}
+  form(action=`/agregar-al-carrito/${product.id}`, method='POST')
+    button(type='submit') Agregar al carrito

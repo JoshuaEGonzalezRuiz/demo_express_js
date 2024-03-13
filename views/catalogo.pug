@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 #{title}
+  if productos.length > 0
+    .producto-container
+      each producto in productos
+        .producto
+          img(src=`/images/${producto.imagen}`, alt=producto.nombre)
+          h2= producto.nombre
+          p= producto.descripcion
+          p Disponible: #{producto.cantidad}
+          p Precio: #{producto.precio}
+          form(action=`/agregar-al-carrito/${producto.id}`, method='POST')
+            button(type='submit') Agregar al carrito
+  else
+    p No se encontraron resultados.

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 #{title}
+  p Bienvenido a nuestra página de ventas ecommerce.
+
+  form(action='/buscar-producto', method='GET' class='search-bar')
+    input(type='text', name='q', placeholder='Buscar producto...')
+    button(type='submit') Buscar
