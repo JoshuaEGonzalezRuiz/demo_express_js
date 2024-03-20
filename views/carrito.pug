@@ -3,9 +3,6 @@ extends layout
 block content
     h1 #{title}
     if carrito.length > 0
-        .procesar-compra-container
-            form(action='/detalle-compra' method='GET')
-                button(type='submit' class='procesar-compra-button') Procesar compra
         table
             thead
                 tr
@@ -13,22 +10,30 @@ block content
                     th Cantidad
                     th Precio unitario
                     th SubTotal
-                    th Acciones
+                    th
             tbody
                 each item in carrito
                     tr
                         td= item.nombre
-                        td= item.cantidad
+                        td
+                            .action-buttons
+                                form(action=`/actualizar-cantidad/${item.id}/-1`, method='POST')
+                                    button(type='submit')
+                                        i(class="material-symbols-rounded") remove
+                                div(class='quantity')
+                                    span= item.cantidad
+                                form(action=`/actualizar-cantidad/${item.id}/1`, method='POST')
+                                    button(type='submit')
+                                        i(class="material-symbols-rounded") add
                         td= `\$ ${item.precio}`
                         td= `\$ ${(item.precio * item.cantidad)}`
                         td
                             .action-buttons
                                 form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
-                                    button(type='submit') Eliminar
-                                form(action=`/actualizar-cantidad/${item.id}/-1`, method='POST')
-                                    button(type='submit') -
-                                span= item.quantity
-                                form(action=`/actualizar-cantidad/${item.id}/1`, method='POST')
-                                    button(type='submit') +
+                                    button(type='submit')
+                                        i(class="material-symbols-rounded") delete
+        .procesar-compra-container
+            form(action='/detalle-compra' method='GET')
+                button(type='submit' class='procesar-compra-button') Procesar compra
     else
         p No hay productos en el carrito.

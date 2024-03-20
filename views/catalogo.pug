@@ -8,10 +8,11 @@ block content
         .producto
           img(src=`/images/${producto.imagen}`, alt=producto.nombre)
           h2= producto.nombre
-          p= producto.descripcion
+          p Descripción del Producto: #{producto.descripcion}
           p Disponible: #{producto.cantidad}
           p Precio: #{producto.precio}
           form(action=`/agregar-al-carrito/${producto.id}`, method='POST')
             button(type='submit') Agregar al carrito
+                i.fas.fa-search
   else
     p No se encontraron resultados.

@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  .login-container
+    h1(class='title') #{title}
+
+    if error
+      p= error
+    form(action='/login' method='POST' class='login-form')
+      .form-group
+        label(for='username' class='form-label') Usuario
+        input(type='text' name='username' id='username' placeholder='Usuario' class='form-input', required)
+
+      .form-group
+        label(for='password' class='form-label') Contraseña
+        input(type='password' name='password' id='password' placeholder='Contraseña' class='form-input', required)
+        button(type='button' id='mostrarContrasena')
+          i(class='material-symbols-rounded') visibility_off
+
+      .form-group
+        button(type='submit' class='submit-button') Iniciar sesión
+
+    p ¿No tienes una cuenta? 
+      a(href='/registro' class='register-link') Regístrate
+
+    //- Script en línea para mostrar/ocultar contraseña
+    script.
+      const passwordInput = document.getElementById('password');
+      const mostrarContrasenaBtn = document.getElementById('mostrarContrasena');
+
+      mostrarContrasenaBtn.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            mostrarContrasenaBtn.innerHTML = '<i class="material-symbols-rounded">visibility</i>';
+        } else {
+            passwordInput.type = 'password';
+            mostrarContrasenaBtn.innerHTML = '<i class="material-symbols-rounded">visibility_off</i>';
+        }
+      });

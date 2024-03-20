@@ -4,6 +4,7 @@ html
   head
     title #{title}
     link(rel='stylesheet', href='/css/styles.css')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200')
   body
     nav
       ul
@@ -12,7 +13,8 @@ html
         li
           a(href='/catalogo') Catálogo de Productos
         li
-          a(href='/carrito') Carrito de Compra (#{carrito.length})
-
+          a(href='/carrito')
+            i(class='material-symbols-rounded') shopping_cart
+            span.badge= carrito.length
     .container
       block content

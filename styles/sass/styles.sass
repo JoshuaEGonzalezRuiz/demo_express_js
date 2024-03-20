@@ -1,17 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap')
+
+$uniquifier: 'Noto style'
+$weight: 400
+
+$mainColor: #F0F3FF
+$navColor: #8E7AB5
+$textColor: #986D8E
+$titleColor: #E493B3
+$hoverColor: #EEA5A6
+
+$border-radius: 20px
+
+.material-symbols-rounded
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24
+
+.noto-sans-#{$uniquifier}
+  font-family: "Noto Sans", sans-serif
+  font-weight: $weight
+  font-style: normal
+
 body
-  font-family: Arial, sans-serif
+  font-family: "Noto Sans", sans-serif
   margin: 0
   padding: 0
+  background-color: $mainColor
 
 nav
-  background-color: #333
-  color: white
-  padding: 10px 0
+  display: flex
+  justify-content: space-between
+  align-items: center
+  background-color: $navColor
+  padding: 5px 0
   text-align: center
 
   ul
+    display: flex
     list-style-type: none
-    margin: 0
+    margin-left: auto
     padding: 0
 
     li
@@ -23,54 +48,166 @@ nav
         text-decoration: none
         font-weight: bold
         padding: 5px 10px
-        border-radius: 5px
+        border-radius: $border-radius
         transition: background-color 0.3s
 
         &:hover
-          background-color: #555
+          background-color: $hoverColor
+
+i
+  vertical-align: middle
+
+.badge
+  position: absolute
+  top: 5px
+  background-color: #87A8A4
+  color: white
+  border-radius: 50%
+  padding: 5px 8px
+  font-size: 12px
 
 .container
   max-width: 800px
-  margin: 20px auto
-  padding: 0 20px
+  margin: 5% 20% 0 20%
 
 h1
+  text-align: center
+  color: $titleColor
+
+.centered-index-content
+  max-width: 800px
+  margin: 5% 10% 0 10% /* Esto centra el div horizontalmente en la página */
+  //text-align: justify /* Esto centra el contenido dentro del div */
+
+.login-container
+  max-width: 400px
+  margin: 0 auto
+  padding: 20px
+  border: 1px solid #ccc
+  border-radius: 5px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  width: 90%
+
+.title
+  font-size: 24px
+  text-align: center
+  //margin-bottom: 20px
+
+.login-form
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.form-group
+  display: flex
+  justify-content: start
+  width: 100%
+  flex-direction: column
+
+  button
+    color: white
+    background-color: $navColor
+    border-radius: $border-radius
+  
+    &:hover
+      background-color: $hoverColor
+
+#mostrarContrasena
+  width: 80px
+  align-self: flex-end
+
+.form-label
+  font-size: 16px
+  margin: 10px 0
+
+.form-input
+  width: 100%
+  padding: 8px
+  font-size: 16px
+  border: 1px solid $navColor
+  border-radius: $border-radius
+  
+  input:hover, input:focus, input:active, input:focus-visible
+    border: 1px solid $hoverColor
+    outline-width: 1px
+    outline-style: solid
+    outline-color: $hoverColor
+
+.show-password-label
+  font-size: 12px
+
+.submit-button
+  padding: 10px
+  font-size: 16px
+  background-color: $navColor
+  color: white
+  border: none
+  border-radius: $border-radius
+  cursor: pointer
+  margin: 20px
+  width: 100%
+  
+  &:hover
+    background-color: $hoverColor
+
+.register-link
+  margin-top: 10px
   text-align: center
 
 table
   width: 100%
-  border-collapse: collapse
-  margin-bottom: 20px
+  //margin: 20% 0 20% 0
+  border-spacing: 0
+  border-collapse: separate
+  border-radius: $border-radius
+  border: 1px solid black
+  overflow: hidden
 
   th, td
-    border: 1px solid #ddd
     padding: 10px
     text-align: center
 
   tr:nth-child(even)
-    background-color: #f2f2f2
+    background-color: #DFCCFB
 
   tr:hover
-    background-color: #ddd
+    background-color: #D9ACF5
+
+/* Apply a border to the right of all but the last column */
+table th:not(:last-child),
+table td:not(:last-child) 
+  border-right: 1px solid black
+
+table td
+  border-top: 1px solid black
+  vertical-align: middle
+
+.quantity
+  display: inline-block
+  margin: 0 5px
 
 .action-buttons
   display: flex
+  justify-content: center
   align-items: center
 
   form
-    margin-right: 5px
+    margin: 0
 
   button
     padding: 5px 10px
     margin-right: 5px
-    background-color: #333
+    background-color: $navColor
     color: white
     border: none
-    border-radius: 5px
+    border-radius: $border-radius
     cursor: pointer
 
     &:hover
-      background-color: #555
+      background-color: $hoverColor
 
   span
     margin: 0 5px
@@ -78,18 +215,22 @@ table
 
 .procesar-compra-container
   text-align: center
-  margin-bottom: 20px
+  margin: 10%
 
 .procesar-compra-button
   padding: 10px 20px
   font-size: 16px
-  background-color: #4CAF50
+  background-color: #87A8A4
   color: white
   border: none
   cursor: pointer
+  border-radius: $border-radius
 
   &:hover
-    background-color: #45a049
+    background-color: #416D19
+
+p
+  color: $textColor
 
 p.empty-cart
   text-align: center
@@ -99,28 +240,34 @@ p.empty-cart
 
 .search-bar
   display: flex
+  justify-content: center
   align-items: center
-  margin-bottom: 20px
 
   input[type="text"]
     flex: 1
     padding: 8px
     font-size: 16px
-    border: 1px solid #ccc
-    border-radius: 5px
+    border: 1px solid $navColor
+    border-radius: $border-radius
+  
+  input:hover, input:focus, input:active, input:focus-visible
+    border: 1px solid $hoverColor
+    outline-width: 1px
+    outline-style: solid
+    outline-color: $hoverColor
 
   button
     padding: 8px 15px
     margin-left: 10px
-    background-color: #333
+    background-color: $navColor
     color: white
     border: none
-    border-radius: 5px
+    border-radius: $border-radius
     cursor: pointer
     transition: background-color 0.3s
 
     &:hover
-      background-color: #555
+      background-color: $hoverColor
 
 .producto-container
   display: grid
@@ -128,32 +275,35 @@ p.empty-cart
   gap: 20px
 
 .producto
-  border: 1px solid #ccc
-  border-radius: 5px
+  border: 1px solid $navColor
+  border-radius: $border-radius
   padding: 20px
+  text-align: center
 
   img
     max-width: 100%
     height: auto
     margin-bottom: 10px
+    border-radius: $border-radius
 
   h2
     font-size: 1.5rem
     margin-bottom: 5px
+    color: $titleColor
 
   p
     margin-bottom: 10px
 
   button
     padding: 8px 15px
-    background-color: #333
+    background-color: $navColor
     color: white
     border: none
-    border-radius: 5px
+    border-radius: $border-radius
     cursor: pointer
 
     &:hover
-      background-color: #555
+      background-color: $hoverColor
 
 .button-container
   display: flex
@@ -169,18 +319,25 @@ p.empty-cart
   border: none
   cursor: pointer
   text-decoration: none
+  border-radius: $border-radius
 
 .button-confirm
-  background-color: #4CAF50
+  background-color: #87A8A4
   color: white
+
+  &:hover
+    background-color: #416D19
 
 .button-cancel
   background-color: #f44336
   color: white
 
 .button-return
-  background-color: #008CBA
+  background-color: #9AD0EC
   color: white
+
+  &:hover
+    background-color: #1572A1
 
 .button-confirm:hover,
 .button-cancel:hover,
@@ -195,6 +352,42 @@ p.empty-cart
 
 .confirmation-message
   font-size: 1.5rem
-  color: #666
   text-align: center
   margin-top: 20px
+
+// Media queries para dispositivos móviles
+@media only screen and (max-width: 600px)
+  // Aquí van los estilos específicos para dispositivos móviles
+  nav
+    padding: 5px 0
+
+    ul
+      margin-left: 0
+
+    li
+      margin-right: 10px
+
+  .container
+    margin: 10% 10% 10% 10%
+
+  .centered-index-content
+    margin: 5% 10% 0 10%
+
+// Media queries para tablets
+@media only screen and (min-width: 601px) and (max-width: 1024px)
+  // Aquí van los estilos específicos para tablets
+
+  .container
+    margin: 5% 15% 5% 15%
+
+  .centered-index-content
+    margin: 5% 10% 0 10%
+
+// Media queries para desktops
+@media only screen and (min-width: 1025px)
+  // Aquí van los estilos específicos para desktops
+  .container
+    margin: 5% 25% 5% 25%
+
+  .centered-index-content
+    margin: 5% 10% 0 10%
