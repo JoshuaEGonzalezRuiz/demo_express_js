@@ -16,5 +16,9 @@ html
           a(href='/carrito')
             i(class='material-symbols-rounded') shopping_cart
             span.badge= carrito.length
+        if user != ''
+          li
+            a(href='/logout')
+              i(class='material-symbols-rounded') logout
     .container
       block content

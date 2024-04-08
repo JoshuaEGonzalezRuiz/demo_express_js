@@ -1,10 +1,10 @@
 // routes/registrar-usuario.js
 const express = require('express');
 const router = express.Router();
+const db = require('../db'); // Reemplaza esto con la ruta correcta a tu archivo db.js
 
 // Ruta para manejar el registro de usuarios
 router.post('/', (req, res) => {
-    let usuarios = req.session.usuarios || []; // Obtiene los usuarios de la sesión del usuario, si no existe, crea una lista nueva de usuarios vacia
     const { nombre, email, password, confirmPassword } = req.body;
 
     // Verificar si la contraseña y su confirmación coinciden
@@ -13,15 +13,25 @@ router.post('/', (req, res) => {
     }
 
     // Verificar si el usuario ya está registrado
-    if (usuarios.find(usuario => usuario.email === email)) {
-        return res.status(400).send('El usuario ya está registrado');
-    }
+    db.obtenerUsuarioPorNombre(nombre, (err, usuarioExistente) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }
+        if (usuarioExistente) {
+            return res.status(400).send('El usuario ya está registrado');
+        }
 
-    // Agregar el usuario a la lista de usuarios registrados
-    usuarios.push({ nombre, email, password });
-    req.session.usuarios = usuarios;
-    // Redirigir al usuario a una página de éxito o a donde desees
-    res.redirect('/login');
+        db.registrarUsuario(nombre, email, password)
+        .then(() => {
+            // Usuario insertado correctamente
+            res.redirect('/login');
+        })
+        .catch((err) => {
+            // Error al insertar usuario
+            return res.status(500).send('Error interno del servidor');
+        });
+
+    });
 });
 
 module.exports = router;
