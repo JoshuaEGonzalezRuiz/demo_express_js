@@ -35,6 +35,7 @@ nav ul li {
   margin-right: 20px;
 }
 nav ul li a {
+  display: flex;
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -51,8 +52,8 @@ i {
 }
 
 .badge {
-  position: absolute;
-  top: 5px;
+  position: relative;
+  top: -15px;
   background-color: #87A8A4;
   color: white;
   border-radius: 50%;
@@ -109,6 +110,7 @@ h1 {
   color: white;
   background-color: #8E7AB5;
   border-radius: 20px;
+  align-self: center;
 }
 .form-group button:hover {
   background-color: #EEA5A6;
@@ -130,6 +132,7 @@ h1 {
   font-size: 16px;
   border: 1px solid #8E7AB5;
   border-radius: 20px;
+  align-self: center;
 }
 .form-input input:hover, .form-input input:focus, .form-input input:active, .form-input input:focus-visible {
   border: 1px solid #EEA5A6;

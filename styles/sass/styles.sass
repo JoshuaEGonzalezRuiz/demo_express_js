@@ -44,6 +44,7 @@ nav
       margin-right: 20px
 
       a
+        display: flex
         color: white
         text-decoration: none
         font-weight: bold
@@ -58,8 +59,8 @@ i
   vertical-align: middle
 
 .badge
-  position: absolute
-  top: 5px
+  position: relative
+  top: -15px
   background-color: #87A8A4
   color: white
   border-radius: 50%
@@ -111,6 +112,7 @@ h1
     color: white
     background-color: $navColor
     border-radius: $border-radius
+    align-self: center
   
     &:hover
       background-color: $hoverColor
@@ -129,6 +131,7 @@ h1
   font-size: 16px
   border: 1px solid $navColor
   border-radius: $border-radius
+  align-self: center
   
   input:hover, input:focus, input:active, input:focus-visible
     border: 1px solid $hoverColor
