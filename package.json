@@ -12,6 +12,7 @@
   "author": "Joshua Gonzalez",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "connect-flash": "^0.1.1",
     "connect-sqlite3": "^0.9.15",
     "cookie-parser": "^1.4.6",
@@ -19,6 +20,7 @@
     "express": "^4.19.1",
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.4",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pug": "^3.0.2",

@@ -10,10 +10,12 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const db = require('./db'); // Archivo donde configuras tu base de datos SQLite
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+const authMiddleWare = require('./middlewares/authMiddleware');
 
 //Configura Cookie Parser
 app.use(cookieParser());
 
+//Configura DotEnv
 dotenv.config();
 
 // Configurar middleware para manejar sesiones
@@ -33,23 +35,33 @@ app.use(passport.session());
 
 // Configurar estrategia de autenticación local
 passport.use(new LocalStrategy(
-  (username, password, done) => {
-    db.obtenerUsuarioPorNombre(username, (err, user) => {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false, { message: 'Usuario incorrecto.' }); }
-      if (user.password !== password) { return done(null, false, { message: 'Contraseña incorrecta.' }); }
+  async (username, password, done) => {
+    try {
+      const user = await db.obtenerUsuarioPorNombre(username);
+      if (!user) {
+        return done(null, false, { message: 'Usuario incorrecto.' });
+      }
+      const passwordMatch = await authMiddleWare.comparePassword(password, user.password_hash);
+      if (!passwordMatch) {
+        return done(null, false, { message: 'Contraseña incorrecta.' });
+      }
       return done(null, user);
-    });
+    } catch (err) {
+      return done(err);
+    }
   }
 ));
+
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  db.getUserById(id, (err, user) => {
-    done(err, user);
+passport.deserializeUser(async (id, done) => {
+  await db.getUserById(id).then((user) => {
+    done(null, user);
+  }).catch((error) => {
+    done(error, null);
   });
 });
 
