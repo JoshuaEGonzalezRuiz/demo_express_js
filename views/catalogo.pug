@@ -1,18 +1,16 @@
 extends layout
 
 block content
-  h1 #{title}
-  if productos.length > 0
-    .producto-container
-      each producto in productos
-        .producto
-          img(src=`/images/${producto.imagen}`, alt=producto.nombre)
-          h2= producto.nombre
-          p Descripción del Producto: #{producto.descripcion}
-          p Disponible: #{producto.cantidad}
-          p Precio: #{producto.precio}
-          form(action=`/agregar-al-carrito/${producto.id}`, method='POST')
-            button(type='submit') Agregar al carrito
-                i.fas.fa-search
-  else
-    p No se encontraron resultados.
+  .general-container
+    if productos.length > 0
+      .producto-container
+        each producto in productos
+          .producto
+            img(src=`${producto.imagen}`, alt=producto.nombre)
+            p(class='producto-label') #{producto.nombre.toUpperCase()} 
+            p(class='producto-precio') $#{producto.precio} MXN
+            form(action=`/agregar-al-carrito/${producto.id}`, method='POST')
+              button(type='submit') Agregar al carrito
+                  i.fas.fa-search
+    else
+      p No se encontraron resultados.

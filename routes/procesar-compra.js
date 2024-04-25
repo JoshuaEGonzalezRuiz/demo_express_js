@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     // Vaciar el carrito después de procesar la compra
     req.session.carrito = [];
 
-    res.render('confirmacion-compra', { title: 'Compra Exitosa' });
+    res.render('confirmacion-compra', { title: 'Compra Exitosa', user: req.user != null ? `${req.user.nombre}` : '' });
 });
 
 module.exports = router;

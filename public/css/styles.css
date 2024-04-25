@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap");
 .material-symbols-rounded {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
@@ -62,8 +63,7 @@ i {
 }
 
 .container {
-  max-width: 800px;
-  margin: 5% 20% 0 20%;
+  width: auto;
 }
 
 h1 {
@@ -72,7 +72,6 @@ h1 {
 }
 
 .centered-index-content {
-  max-width: 800px;
   margin: 5% 10% 0 10%;
 }
 
@@ -165,17 +164,27 @@ h1 {
   text-align: center;
 }
 
+.carrito-container {
+  display: flex;
+}
+
 table {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 0.5px solid black;
   overflow: hidden;
 }
-table th, table td {
+table th {
   padding: 10px;
   text-align: center;
+}
+table td {
+  padding: 10px;
+  text-align: initial;
+  border-top: 0.5px solid black;
+  vertical-align: middle;
 }
 table tr:nth-child(even) {
   background-color: #DFCCFB;
@@ -187,12 +196,11 @@ table tr:hover {
 /* Apply a border to the right of all but the last column */
 table th:not(:last-child),
 table td:not(:last-child) {
-  border-right: 1px solid black;
+  border-right: 0.5px solid black;
 }
 
-table td {
-  border-top: 1px solid black;
-  vertical-align: middle;
+.td-precio {
+  text-align: center;
 }
 
 .quantity {
@@ -204,6 +212,7 @@ table td {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 2em auto;
 }
 .action-buttons form {
   margin: 0;
@@ -225,9 +234,18 @@ table td {
   font-weight: bold;
 }
 
+#eliminar-del-carrito {
+  width: 150px;
+  font-size: 1em;
+}
+
 .procesar-compra-container {
   text-align: center;
-  margin: 10%;
+  margin: 2.5%;
+  padding: 2.5%;
+}
+.procesar-compra-container form {
+  margin-top: 2em;
 }
 
 .procesar-compra-button {
@@ -237,7 +255,9 @@ table td {
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
+  width: -moz-available;
+  width: -webkit-fill-available;
 }
 .procesar-compra-button:hover {
   background-color: #416D19;
@@ -254,10 +274,16 @@ p.empty-cart {
   margin-top: 20px;
 }
 
+.general-container {
+  margin: 5%;
+  min-width: 250px;
+}
+
 .search-bar {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 250px;
 }
 .search-bar input[type=text] {
   flex: 1;
@@ -288,12 +314,11 @@ p.empty-cart {
 
 .producto-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  gap: 25px;
 }
 
 .producto {
-  border: 1px solid #8E7AB5;
   border-radius: 20px;
   padding: 20px;
   text-align: center;
@@ -304,13 +329,14 @@ p.empty-cart {
   margin-bottom: 10px;
   border-radius: 20px;
 }
+.producto p {
+  text-align: center;
+  color: #000;
+}
 .producto h2 {
   font-size: 1.5rem;
   margin-bottom: 5px;
   color: #E493B3;
-}
-.producto p {
-  margin-bottom: 10px;
 }
 .producto button {
   padding: 8px 15px;
@@ -319,9 +345,36 @@ p.empty-cart {
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  width: -moz-available;
+  width: -webkit-fill-available;
 }
 .producto button:hover {
   background-color: #EEA5A6;
+}
+
+.producto-label {
+  font-size: 18px;
+  font-family: "Reddit Mono";
+}
+
+.producto-precio {
+  font-size: 14px;
+  font-family: "Reddit Mono";
+}
+
+.producto-cell {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  margin: auto 0.15em;
+}
+.producto-cell img {
+  width: 150px;
+}
+.producto-cell span {
+  margin-left: 2em;
 }
 
 .button-container {
@@ -387,32 +440,30 @@ p.empty-cart {
     padding: 5px 0;
   }
   nav ul {
-    margin-left: 0;
+    margin-left: 10px;
   }
   nav li {
     margin-right: 10px;
   }
-  .container {
-    margin: 10% 10% 10% 10%;
+  .catalogo-container {
+    margin: 5% 20% 5% 20%;
   }
   .centered-index-content {
     margin: 5% 10% 0 10%;
   }
+  .producto-container {
+    grid-template-columns: repeat(1, minmax(100px, 1fr));
+  }
 }
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
-  .container {
+  .catalogo-container {
     margin: 5% 15% 5% 15%;
   }
   .centered-index-content {
     margin: 5% 10% 0 10%;
   }
-}
-@media only screen and (min-width: 1025px) {
-  .container {
-    margin: 5% 25% 5% 25%;
-  }
-  .centered-index-content {
-    margin: 5% 10% 0 10%;
+  .producto-container {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
   }
 }
 

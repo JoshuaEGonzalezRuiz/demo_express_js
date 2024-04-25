@@ -1,14 +1,14 @@
 extends layout
 
 block content
+  .general-container
+    form(action='/buscar-producto', method='GET' class='search-bar')
+      input(type='text', name='q', placeholder='Buscar producto...')
+      button(type='submit')
+        i(class='material-symbols-rounded') search
 
-  form(action='/buscar-producto', method='GET' class='search-bar')
-    input(type='text', name='q', placeholder='Buscar producto...')
-    button(type='submit')
-      i(class='material-symbols-rounded') search
-
-  div(class='centered-index-content')
-    h1 #{title}
-    p ¡Bienvenido a nuestra tienda online de cosméticos! Aquí encontrarás una amplia gama de productos para el cuidado de tu piel, maquillaje de alta calidad y fragancias irresistibles. Navega por nuestras categorías y descubre los mejores productos para realzar tu belleza natural.
-    p En nuestra tienda, nos preocupamos por tu bienestar y queremos ofrecerte productos que cuiden tu piel y resalten tu belleza única. Todos nuestros productos son cuidadosamente seleccionados para garantizar la mejor calidad y resultados visibles.
-    p ¿Qué estás esperando? ¡Explora nuestra tienda y descubre tu nueva rutina de belleza!
+    .centered-index-content
+      h1 #{title}
+      p ¡Bienvenido a nuestra tienda online de cosméticos! Aquí encontrarás una amplia gama de productos para el cuidado de tu piel, maquillaje de alta calidad y fragancias irresistibles. Navega por nuestras categorías y descubre los mejores productos para realzar tu belleza natural.
+      p En nuestra tienda, nos preocupamos por tu bienestar y queremos ofrecerte productos que cuiden tu piel y resalten tu belleza única. Todos nuestros productos son cuidadosamente seleccionados para garantizar la mejor calidad y resultados visibles.
+      p ¿Qué estás esperando? ¡Explora nuestra tienda y descubre tu nueva rutina de belleza!

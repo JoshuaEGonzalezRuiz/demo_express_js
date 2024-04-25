@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 //Configura DotEnv
 dotenv.config();
 
-function authenticate(req, res, next) {
+async function authenticate(req, res, next) {
     // Verifica si hay un token en las cookies de la solicitud
     const token = req.cookies.token;
 
@@ -23,6 +23,7 @@ function authenticate(req, res, next) {
         req.userId = decoded.userId;
 
         next();
+
     } catch (err) {
         // Si hay un error en la verificación del token, redirige al usuario al login
         return res.redirect('/login');
@@ -35,13 +36,13 @@ function generateToken(userId) {
     return jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 }
 
-async function getHash(passwordString){
+async function getHash(passwordString) {
     const saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS);
     const password_hash = await bcrypt.hash(passwordString, saltRounds);
     return password_hash;
 }
 
-async function comparePassword(passwordString, bdHash){
+async function comparePassword(passwordString, bdHash) {
     const compareHashes = await bcrypt.compare(passwordString, bdHash);
     return compareHashes;
 }

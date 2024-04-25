@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const productosController = require('../controllers/productosController');
+const productoController = require('../controllers/productoController');
 
 // Ruta para el detalle de producto
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const idProducto = req.params.id;
-    const producto = productosController.getProductoPorId(idProducto);
-    res.render('producto', { title: 'Detalle del Producto', producto });
+    const producto = await productoController.obtenerPorId(idProducto);
+    res.render('producto', { title: 'Detalle del Producto', producto, user: req.user != null ? `${req.user.nombre}` : '' });
 });
 
 module.exports = router;

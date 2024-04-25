@@ -7,10 +7,11 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const SQLiteStore = require('connect-sqlite3')(session);
-const db = require('./db'); // Archivo donde configuras tu base de datos SQLite
+const usuarios = require('./database/tables/usuarios'); // Archivo contenedor de querys para MySQL
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const authMiddleWare = require('./middlewares/authMiddleware');
+const carritoController = require('./controllers/carritoController');
 
 //Configura Cookie Parser
 app.use(cookieParser());
@@ -37,7 +38,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
   async (username, password, done) => {
     try {
-      const user = await db.obtenerUsuarioPorNombre(username);
+      const user = await usuarios.obtenerPorNombre(username);
       if (!user) {
         return done(null, false, { message: 'Usuario incorrecto.' });
       }
@@ -58,15 +59,36 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  await db.getUserById(id).then((user) => {
+  await usuarios.obtenerPorId(id).then((user) => {
     done(null, user);
   }).catch((error) => {
     done(error, null);
   });
 });
 
-app.use((req, res, next) => {
-  res.locals.carrito = req.session.carrito || [];
+// Variable global para almacenar el carrito en caché
+let carritoCache = {};
+
+// Middleware para obtener el carrito del usuario desde la caché
+app.use(async (req, res, next) => {
+  if (req.user && req.user.id) {
+    // Verificar si el carrito está en la caché
+    if (carritoCache[req.user.id]) {
+      // Utilizar el carrito de la caché
+      res.locals.carrito = carritoCache[req.user.id];
+    } else {
+      // Obtener el carrito de la base de datos
+      let carritoDB = await carritoController.obtenerProductos(req.user.id);
+      // Almacenar el carrito en la caché
+      carritoCache[req.user.id] = carritoDB;
+      // Utilizar el carrito de la base de datos
+      res.locals.carrito = carritoDB;
+    }
+  } else {
+    // Si el usuario no está autenticado, utilizar el carrito de la sesión
+    res.locals.carrito = req.session.carrito || [];
+  }
+
   console.log(`Solicitud recibida: ${req.method} ${req.url}`);
   next();
 });
@@ -87,6 +109,35 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use('/', router);
+
+//Ruta para cerrar sesión
+app.get('/logout', async (req, res) => {
+  await req.logout(async (err) => {
+    if (err) {
+      // Manejo del error, si es necesario
+      console.error(err);
+    }
+    //req.session.destroy(); // Eliminar la sesión completa
+    await req.session.destroy((err) => {
+      if (err) {
+        console.error('Error al destruir la sesión:', err);
+        return res.status(500).send('Error al cerrar sesión');
+      }
+      console.log('req.session.destroy finalizado correctamente');
+    });
+    // Eliminar el contenido del almacén de sesiones
+    await req.sessionStore.clear((err) => {
+      if (err) {
+        console.error('Error al limpiar el almacén de sesiones:', err);
+        return res.status(500).send('Error al cerrar sesión');
+      }
+      console.log('req.sessionStore.clear finalizado correctamente');
+    });
+    res.clearCookie('token');
+    res.redirect('/'); // Redirigir a la página principal u otra página de tu elección
+  });
+});
+
 
 // Puerto en el que escucha el servidor
 const port = 3000;

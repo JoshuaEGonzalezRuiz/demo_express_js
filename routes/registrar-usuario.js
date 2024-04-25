@@ -1,7 +1,7 @@
 // routes/registrar-usuario.js
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // Reemplaza esto con la ruta correcta a tu archivo db.js
+const usuarios = require('../database/tables/usuarios'); // Archivo contenedor de querys para MySQL
 const authMiddleWare = require('../middlewares/authMiddleware');
 
 // Ruta para manejar el registro de usuarios
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
     try {
         // Verificar si el usuario ya está registrado
-        const usuarioExistente = await db.obtenerUsuarioPorNombre(nombre);
+        const usuarioExistente = await usuarios.obtenerPorNombre(nombre);
         if (usuarioExistente) {
             return res.status(400).send('El usuario ya está registrado');
         }
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         const hashedPassword = await authMiddleWare.getHash(password);
 
         // Registrar el usuario en la base de datos
-        await db.registrarUsuario(nombre, email, hashedPassword);
+        await usuarios.registrar(nombre, email, hashedPassword);
 
         // Usuario insertado correctamente
         res.redirect('/login');

@@ -2,38 +2,43 @@ extends layout
 
 block content
     h1 #{title}
-    if carrito.length > 0
-        table
-            thead
-                tr
-                    th Producto
-                    th Cantidad
-                    th Precio unitario
-                    th SubTotal
-                    th
-            tbody
-                each item in carrito
-                    tr
-                        td= item.nombre
-                        td
-                            .action-buttons
-                                form(action=`/actualizar-cantidad/${item.id}/-1`, method='POST')
-                                    button(type='submit')
-                                        i(class="material-symbols-rounded") remove
-                                div(class='quantity')
-                                    span= item.cantidad
-                                form(action=`/actualizar-cantidad/${item.id}/1`, method='POST')
-                                    button(type='submit')
-                                        i(class="material-symbols-rounded") add
-                        td= `\$ ${item.precio}`
-                        td= `\$ ${(item.precio * item.cantidad)}`
-                        td
-                            .action-buttons
-                                form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
-                                    button(type='submit')
-                                        i(class="material-symbols-rounded") delete
-        .procesar-compra-container
-            form(action='/detalle-compra' method='GET')
-                button(type='submit' class='procesar-compra-button') Procesar compra
-    else
-        p No hay productos en el carrito.
+    .general-container
+        if carrito.length > 0
+            div(class='carrito-container')
+                table
+                    thead
+                        tr
+                            th Producto
+                            th Cantidad
+                            th Total
+
+                    tbody
+                        - let total = 0;
+                        each item in carrito
+                            - total += (item.precio * item.cantidad);
+                            tr
+                                td
+                                    .producto-cell
+                                        img(src=`${item.imagen}`)
+                                        span= item.nombre
+                                td
+                                    .action-buttons
+                                        form(action=`/actualizar-cantidad/${item.id}/-1`, method='POST')
+                                            button(type='submit')
+                                                i(class="material-symbols-rounded") remove
+                                        div(class='quantity')
+                                            span= item.cantidad
+                                        form(action=`/actualizar-cantidad/${item.id}/1`, method='POST')
+                                            button(type='submit')
+                                                i(class="material-symbols-rounded") add
+                                    .action-buttons
+                                        form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
+                                            button(id='eliminar-del-carrito' type='submit') Eliminar
+                                td(class='td-precio')= `\$ ${(item.precio * item.cantidad).toFixed(2)}`
+                .procesar-compra-container
+                    strong= 'TOTAL:\n'
+                    span= `\$${total.toFixed(2)} MXN`
+                    form(action='/detalle-compra' method='GET')
+                        button(type='submit' class='procesar-compra-button') PAGAR
+        else
+            p No hay productos en el carrito.

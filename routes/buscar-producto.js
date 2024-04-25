@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const productosController = require('../controllers/productosController');
+const productoController = require('../controllers/productoController');
 
 // Ruta para buscar productos
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const query = req.query.q.toLowerCase();
-    const productos = productosController.getProductos();
+    const productos = await productoController.obtenerTodos();
     const productosFiltrados = productos.filter(producto =>
         producto.nombre.toLowerCase().includes(query) || producto.descripcion.toLowerCase().includes(query)
     );
-    res.render('catalogo', { title: 'Resultados de la Búsqueda', productos: productosFiltrados });
+    res.render('catalogo', { title: 'Resultados de la Búsqueda', productos: productosFiltrados, user: req.user != null ? `${req.user.nombre}` : '' });
 });
 
 module.exports = router;

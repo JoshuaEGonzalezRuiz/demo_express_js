@@ -2,12 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-const productosController = require('../controllers/productosController');
+const productoController = require('../controllers/productoController');
 
 // Ruta para el catálogo de productos
-router.get('/', (req, res) => {
-    const productos = productosController.getProductos();
-    res.render('catalogo', { title: 'Catálogo de Productos', productos });
+router.get('/', async (req, res) => {
+    const productos = await productoController.obtenerTodos();
+    res.render('catalogo', { title: 'Catálogo de Productos', productos, user: req.user != null ? `${req.user.nombre}` : '' });
 });
 
 module.exports = router;

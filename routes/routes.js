@@ -7,7 +7,6 @@ const authMiddleware = require('../middlewares/authMiddleware'); // Middleware p
 // Importa las rutas específicas
 const index = require('./index');
 const login = require('./login');
-const logout = require('./logout');
 const registro = require('./registro');
 const registrarUsuario = require('./registrar-usuario');
 const catalogoRouter = require('./catalogo');
@@ -23,7 +22,6 @@ const procesarCompraRouter = require('./procesar-compra');
 // Configura las rutas
 router.use('/', index);
 router.use('/login', login);
-router.use('/logout', logout);
 router.use('/registro', registro);
 router.use('/registrar-usuario', registrarUsuario);
 router.use('/catalogo', catalogoRouter);
