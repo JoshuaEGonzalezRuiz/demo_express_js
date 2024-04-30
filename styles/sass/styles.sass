@@ -161,37 +161,69 @@ h1
 .carrito-container
   display: flex
 
-table
-  width: 100%
-  border-spacing: 0
-  border-collapse: separate
-  border-radius: $border-radius
-  border: 0.5px solid black
-  overflow: hidden
+.carrito-list
+    display: none
+    list-style: none
+    padding: 0
+    margin: 0
 
-  th
-    padding: 10px
-    text-align: center
-  
-  td
-    padding: 10px
-    text-align: initial
-    border-top: 0.5px solid black
-    vertical-align: middle
+    li
+        display: flex
+        align-items: center
+        justify-content: space-between
+        padding: 10px
+        border-bottom: 1px solid #ddd
 
-  tr:nth-child(even)
-    background-color: #DFCCFB
+        img
+            max-width: 50px
+            margin-right: 10px
 
-  tr:hover
-    background-color: #D9ACF5
+        span
+            flex: 1
+            margin-right: 10px
+    
+    @media screen and (max-width: 450px)
+      .carrito-list
+          min-width: 600px
+          overflow-x: scroll // Mostrar barra de scroll en dispositivos con scroll táctil
+          -webkit-overflow-scrolling: touch
 
-/* Apply a border to the right of all but the last column */
-table th:not(:last-child),
-table td:not(:last-child) 
-  border-right: 0.5px solid black
 
-.td-precio
-  text-align: center
+.carrito-table
+    width: 100%
+    table-layout: fixed // Fuerza a las columnas a tener un ancho fijo
+    border-collapse: collapse // Colapsa los bordes de las celdas
+    table
+      width: 100%
+    th, td
+        text-align: center // Alinea el texto a la izquierda en las celdas
+        padding: 8px // Agrega espaciado interno a las celdas
+        border-bottom: 1px solid #000 // Agrega borde inferior a las filas
+    th:nth-child(1), td:nth-child(1) // Primera columna
+        width: 40% // Establece el ancho de la primera columna
+        border-right: 1px solid #000 // Agrega bordes entre las columnas
+    th:nth-child(2), td:nth-child(2) // Segunda columna
+        width: 20% // Establece el ancho de la segunda columna
+        border-right: 1px solid #000 // Agrega bordes entre las columnas
+    th:nth-child(3), td:nth-child(3) // Tercera columna
+        width: 40% // Establece el ancho de la tercera columna
+
+    // Media query para hacer la tabla responsiva
+    @media screen and (max-width: 768px)
+        th, td
+            display: block // Cambia a modo bloque para ocupar todo el ancho
+            width: 100% // Ocupa todo el ancho del contenedor
+        th:nth-child(1), td:nth-child(1) // Primera columna
+            width: auto // Auto para que ocupe el ancho necesario
+        th:nth-child(2), td:nth-child(2) // Segunda columna
+            width: auto // Auto para que ocupe el ancho necesario
+        th:nth-child(3), td:nth-child(3) // Tercera columna
+            width: auto // Auto para que ocupe el ancho necesario
+
+.carrito-table,
+.carrito-list
+    max-height: 300px
+    overflow-y: auto
 
 .quantity
   display: inline-block
@@ -343,12 +375,10 @@ p.empty-cart
   display: flex
   justify-content: start
   align-items: center
-  width: -moz-available
-  width: -webkit-fill-available
   margin: auto 0.15em
   
   img
-    width: 150px
+    max-width: 50px
   
   span
     margin-left: 2em

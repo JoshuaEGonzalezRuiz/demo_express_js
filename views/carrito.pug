@@ -4,7 +4,14 @@ block content
     h1 #{title}
     .general-container
         if carrito.length > 0
-            div(class='carrito-container')
+            ul(class='carrito-list')
+                each item in carrito
+                    li
+                        img(src=`${item.imagen}`)
+                        span= item.nombre
+                        span= `Cantidad: ${item.cantidad}`
+                        span= `Total: \$${(item.precio * item.cantidad).toFixed(2)}`
+            div(class='carrito-table')
                 table
                     thead
                         tr
@@ -35,10 +42,23 @@ block content
                                         form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
                                             button(id='eliminar-del-carrito' type='submit') Eliminar
                                 td(class='td-precio')= `\$ ${(item.precio * item.cantidad).toFixed(2)}`
-                .procesar-compra-container
-                    strong= 'TOTAL:\n'
-                    span= `\$${total.toFixed(2)} MXN`
-                    form(action='/detalle-compra' method='GET')
-                        button(type='submit' class='procesar-compra-button') PAGAR
+            .procesar-compra-container
+                strong= 'TOTAL:\n'
+                span= `\$${total.toFixed(2)} MXN`
+                form(action='/detalle-compra' method='GET')
+                    button(type='submit' class='procesar-compra-button') PAGAR
         else
             p No hay productos en el carrito.
+
+    script.
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.carrito-list').style.display = 'block';
+                document.querySelector('.carrito-table').style.display = 'none';
+            } else {
+                document.querySelector('.carrito-list').style.display = 'none';
+                document.querySelector('.carrito-table').style.display = 'block';
+            }
+        });
+        // Ejecutar la función al cargar la página para establecer el estado inicial
+        window.dispatchEvent(new Event('resize'));

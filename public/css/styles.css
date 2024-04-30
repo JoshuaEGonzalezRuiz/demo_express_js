@@ -168,39 +168,79 @@ h1 {
   display: flex;
 }
 
-table {
+.carrito-list {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.carrito-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.carrito-list li img {
+  max-width: 50px;
+  margin-right: 10px;
+}
+.carrito-list li span {
+  flex: 1;
+  margin-right: 10px;
+}
+@media screen and (max-width: 450px) {
+  .carrito-list .carrito-list {
+    min-width: 600px;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.carrito-table {
   width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
-  border-radius: 20px;
-  border: 0.5px solid black;
-  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
-table th {
-  padding: 10px;
+.carrito-table table {
+  width: 100%;
+}
+.carrito-table th, .carrito-table td {
   text-align: center;
+  padding: 8px;
+  border-bottom: 1px solid #000;
 }
-table td {
-  padding: 10px;
-  text-align: initial;
-  border-top: 0.5px solid black;
-  vertical-align: middle;
+.carrito-table th:nth-child(1), .carrito-table td:nth-child(1) {
+  width: 40%;
+  border-right: 1px solid #000;
 }
-table tr:nth-child(even) {
-  background-color: #DFCCFB;
+.carrito-table th:nth-child(2), .carrito-table td:nth-child(2) {
+  width: 20%;
+  border-right: 1px solid #000;
 }
-table tr:hover {
-  background-color: #D9ACF5;
+.carrito-table th:nth-child(3), .carrito-table td:nth-child(3) {
+  width: 40%;
+}
+@media screen and (max-width: 768px) {
+  .carrito-table th, .carrito-table td {
+    display: block;
+    width: 100%;
+  }
+  .carrito-table th:nth-child(1), .carrito-table td:nth-child(1) {
+    width: auto;
+  }
+  .carrito-table th:nth-child(2), .carrito-table td:nth-child(2) {
+    width: auto;
+  }
+  .carrito-table th:nth-child(3), .carrito-table td:nth-child(3) {
+    width: auto;
+  }
 }
 
-/* Apply a border to the right of all but the last column */
-table th:not(:last-child),
-table td:not(:last-child) {
-  border-right: 0.5px solid black;
-}
-
-.td-precio {
-  text-align: center;
+.carrito-table,
+.carrito-list {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .quantity {
@@ -366,12 +406,10 @@ p.empty-cart {
   display: flex;
   justify-content: start;
   align-items: center;
-  width: -moz-available;
-  width: -webkit-fill-available;
   margin: auto 0.15em;
 }
 .producto-cell img {
-  width: 150px;
+  max-width: 50px;
 }
 .producto-cell span {
   margin-left: 2em;
