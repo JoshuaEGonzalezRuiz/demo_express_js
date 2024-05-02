@@ -41,12 +41,12 @@ block content
                                     .action-buttons
                                         form(action=`/eliminar-del-carrito/${item.id}`, method='POST')
                                             button(id='eliminar-del-carrito' type='submit') Eliminar
-                                td(class='td-precio')= `\$ ${(item.precio * item.cantidad).toFixed(2)}`
+                                td= `\$ ${(item.precio * item.cantidad).toFixed(2)}`
             .procesar-compra-container
                 strong= 'TOTAL:\n'
-                span= `\$${total.toFixed(2)} MXN`
+                span= `\$${total.toFixed(2)} MXN (SIN IVA)`
                 form(action='/detalle-compra' method='GET')
-                    button(type='submit' class='procesar-compra-button') PAGAR
+                    button.procesar-compra-button(type='submit') PAGAR
         else
             p No hay productos en el carrito.
 

@@ -2,28 +2,58 @@ extends layout
 
 block content
     h1 #{title}
-    if carrito.length > 0
-        table
-            thead
-                tr
-                    th Producto
-                    th Cantidad
-                    th Precio unitario
-                    th SubTotal
-                    th IVA
-                    th Precio total
-            tbody
+    .general-container 
+        if carrito.length > 0
+            ul(class='carrito-list')
                 each item in carrito
-                    tr
-                        td= item.nombre
-                        td= item.cantidad
-                        td= `\$ ${item.precio}`
-                        td= `\$ ${(item.precio * item.cantidad)}`
-                        td= "16%"
-                        td= `\$ ${(item.precio * item.cantidad * 1.16).toFixed(2)} (IVA incluido)`
-        .button-container
-            form(action='/procesar-compra' method='POST')
-                button.button-confirm(type='submit') Confirmar compra
-                a.button-return(href='/carrito') Volver al carrito
-    else
-        p No hay productos en el carrito.
+                    li
+                        img(src=`${item.imagen}`)
+                        span= item.nombre
+                        span= `Cantidad: ${item.cantidad}`
+                        span= `Total: \$${(item.precio * item.cantidad).toFixed(2)}`
+            div(class='carrito-table')
+                table
+                    thead
+                        tr
+                            th Producto
+                            th Cantidad
+                            th Precio
+                    tbody
+                        - let total = 0;
+                        - let totalIva = 0;
+                        each item in carrito
+                            - total += (item.precio * item.cantidad); 
+                            - totalIva += ((item.precio * item.cantidad) * 1.16);
+                            tr
+                                td
+                                    .producto-cell
+                                        img(src=`${item.imagen}`)
+                                        span= item.nombre
+                                td= item.cantidad
+                                td= `\$ ${item.precio}`
+            .procesar-compra-container
+                div(class='procesar-compra-detalle')
+                    strong= 'SubTotal:\n'
+                    span= `\$${total.toFixed(2)} MXN`
+                    strong= 'IVA:'
+                    span= `16%`
+                    strong= 'TOTAL: \n'
+                    span= `\$${totalIva.toFixed(2)} MXN`
+                form(action='/procesar-compra' method='POST')
+                    button.button-confirm(type='submit') Confirmar compra
+                    a.button-return(href='/carrito') Volver al carrito
+        else
+            p No hay productos en el carrito.
+
+    script.
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.carrito-list').style.display = 'block';
+                document.querySelector('.carrito-table').style.display = 'none';
+            } else {
+                document.querySelector('.carrito-list').style.display = 'none';
+                document.querySelector('.carrito-table').style.display = 'block';
+            }
+        });
+        // Ejecutar la función al cargar la página para establecer el estado inicial
+        window.dispatchEvent(new Event('resize'));

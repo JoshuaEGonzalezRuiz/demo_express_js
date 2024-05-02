@@ -266,6 +266,11 @@ h1
   form
     margin-top: 2em
 
+.procesar-compra-detalle
+  display: grid
+  justify-content: center
+  grid-gap: 0.5em
+
 .procesar-compra-button
   padding: 10px 20px
   font-size: 16px
@@ -391,13 +396,17 @@ p.empty-cart
 .button-confirm,
 .button-cancel,
 .button-return
+  display: grid
+  justify-content: center
   padding: 10px 20px
   margin: 10px
   font-size: 16px
   border: none
   cursor: pointer
   text-decoration: none
-  border-radius: $border-radius
+  border-radius: 10px
+  width: -moz-available
+  width: -webkit-fill-available
 
 .button-confirm
   background-color: #87A8A4
