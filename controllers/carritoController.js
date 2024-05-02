@@ -1,25 +1,20 @@
 // controllers/carrito.js
 const carritoModel = require('../models/carritoModel');
 
-
 async function agregarProducto(usuarioId, productoId, cantidad) {
-    const resultado = await carritoModel.agregarProducto(usuarioId, productoId, cantidad);
-    return resultado;
+    return await carritoModel.agregarProducto(usuarioId, productoId, cantidad);
 }
 
 async function obtenerProductos(usuarioId) {
-    const productos = await carritoModel.obtenerProductos(usuarioId);
-    return productos;
+    return await carritoModel.obtenerProductos(usuarioId);
 }
 
 async function actualizarCantidad(cantidad, usuarioId, productoId) {
-    const resultado = await carritoModel.actualizarCantidad(cantidad, usuarioId, productoId);
-    return resultado;
+    return await carritoModel.actualizarCantidad(cantidad, usuarioId, productoId);
 }
 
 async function quitarProducto(usuarioId, productoId) {
-    const resultado = await carritoModel.quitarProducto(usuarioId, productoId);
-    return resultado;
+    return await carritoModel.quitarProducto(usuarioId, productoId);
 }
 
 module.exports = {

@@ -1,4 +1,9 @@
-const productoDB = require('../database/tables/productos');
+const axios = require('axios');
+const dotenv = require('dotenv');
+
+//Configura DotEnv
+dotenv.config();
+
 class Producto {
   constructor(id, nombre, descripcion, cantidad, precio, imagen) {
     this.id = id;
@@ -12,24 +17,23 @@ class Producto {
 
 async function obtenerTodos() {
   try {
-    const productos = await productoDB.obtenerTodos();
+    const response = await axios.get(`${process.env.BASE_URL}/productos`);
+    const productos = response.data;
     return productos.map(producto => new Producto(producto.id,
       producto.nombre, producto.descripcion, producto.cantidad,
       producto.precio, producto.imagen));
   } catch (error) {
-    console.error('Error al obtener los productos:', error);
+    console.error('Error al obtener todos los productos:', error);
     throw error;
   }
 }
 
 async function obtenerPorId(id) {
   try {
-    const producto = await productoDB.obtenerPorId(id);
-    if (producto) {
-      return new Producto(producto.id, producto.nombre,
-        producto.descripcion, producto.cantidad, producto.precio, producto.imagen);
-    }
-    return null;
+    const response = await axios.get(`${process.env.BASE_URL}/productos/${id}`);
+    const producto = response.data;
+    return new Producto(producto.id, producto.nombre,
+      producto.descripcion, producto.cantidad, producto.precio, producto.imagen);
   } catch (error) {
     console.error('Error al obtener el producto por ID:', error);
     throw error;
@@ -38,11 +42,12 @@ async function obtenerPorId(id) {
 
 async function actualizarCantidad(nuevaCantidad, productoId) {
   try {
-    return await productoDB.actualizarCantidad(nuevaCantidad, parseInt(productoId));
-} catch(error) {
-    console.error('Error al agregar el producto al carrito:', error);
+    await axios.put(`${process.env.BASE_URL}/productos/actualizar-cantidad`, { nuevaCantidad, productoId });
+    console.log('Cantidad de producto actualizada');
+  } catch (error) {
+    console.error('Error al actualizar la cantidad del producto:', error);
     throw error;
-}
+  }
 }
 
 module.exports = {

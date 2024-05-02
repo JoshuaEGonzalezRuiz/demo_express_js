@@ -1,20 +1,15 @@
 // controllers/productos.js
 const productoModel = require('../models/productoModel');
 
-
 async function obtenerTodos() {
-  const productos = await productoModel.obtenerTodos();
-  return productos;
+  return await productoModel.obtenerTodos();
 }
 
 async function obtenerPorId(id) {
-  const producto = await productoModel.obtenerPorId(id);
-  return producto;
+  return await productoModel.obtenerPorId(id);
 }
-
 async function actualizarCantidad(nuevaCantidad, productoId) {
-  const resultado = await productoModel.actualizarCantidad(nuevaCantidad, productoId);
-  return resultado;
+  return await productoModel.actualizarCantidad(nuevaCantidad, productoId);
 }
 
 module.exports = {

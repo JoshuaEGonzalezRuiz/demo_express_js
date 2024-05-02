@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/authMiddleware'); // Middleware p
 
 // Ruta para el detalle de compra
 router.get('/', authMiddleware.authenticate, (req, res) => {
-    let carrito = req.session.carrito || []; // Obtiene el carrito de la sesión del usuario, si no existe, crea un nuevo carrito vacío
+    let carrito = res.locals.carrito;
     res.render('detalle-compra', { title: 'Detalle de Compra', carrito, user: req.user != null ? `${req.user.nombre}` : '' });
 });
 

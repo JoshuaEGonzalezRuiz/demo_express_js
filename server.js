@@ -7,7 +7,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const SQLiteStore = require('connect-sqlite3')(session);
-const usuarios = require('./database/tables/usuarios'); // Archivo contenedor de querys para MySQL
+const usuarioController = require('./controllers/usuarioController'); // Archivo contenedor de querys para MySQL
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const authMiddleWare = require('./middlewares/authMiddleware');
@@ -38,7 +38,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
   async (username, password, done) => {
     try {
-      const user = await usuarios.obtenerPorNombre(username);
+      const user = await usuarioController.obtenerUsuarioPorNombre(username);
       if (!user) {
         return done(null, false, { message: 'Usuario incorrecto.' });
       }
@@ -59,7 +59,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  await usuarios.obtenerPorId(id).then((user) => {
+  await usuarioController.obtenerUsuarioPorId(id).then((user) => {
     done(null, user);
   }).catch((error) => {
     done(error, null);
@@ -133,6 +133,7 @@ app.get('/logout', async (req, res) => {
       }
       console.log('req.sessionStore.clear finalizado correctamente');
     });
+    carritoCache = {};
     res.clearCookie('token');
     res.redirect('/'); // Redirigir a la página principal u otra página de tu elección
   });
