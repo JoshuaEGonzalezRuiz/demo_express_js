@@ -18,16 +18,18 @@ router.post('/:id', async (req, res) => {
         if (productoEnCarrito) {
             productoEnCarrito.cantidad++;
             if(req.hasOwnProperty('user')){
-                await carritoController.agregarProducto(req.user.id, idProducto, productoEnCarrito.cantidad);
+                await carritoController.agregarProducto(req.user.id, idProducto, productoEnCarrito.cantidad, req.cookies.token);
             }
         } else {
             carrito.push({ id: idProducto, nombre: producto.nombre, precio: producto.precio, cantidad: 1 , imagen: producto.imagen});
             if(req.hasOwnProperty('user')){
-                await carritoController.agregarProducto(req.user.id, idProducto, 1);
+                await carritoController.agregarProducto(req.user.id, idProducto, 1, req.cookies.token);
             }
         }
         producto.cantidad--;
-        await productoController.actualizarCantidad(producto.cantidad, idProducto);
+        if(req.hasOwnProperty('user')){
+            await productoController.actualizarCantidad(producto.cantidad, idProducto, req.cookies.token);
+        }
         if(res.locals.carrito.length > 0){
             res.locals.carrito = carrito;
         } else {

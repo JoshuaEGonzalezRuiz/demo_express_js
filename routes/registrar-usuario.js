@@ -15,10 +15,10 @@ router.post('/', async (req, res) => {
 
     try {
         // Verificar si el usuario ya está registrado
-        const usuarioExistente = await usuarioController.obtenerUsuarioPorNombre(nombre);
-        if (usuarioExistente) {
-            return res.status(400).send('El usuario ya está registrado');
-        }
+        // const usuarioExistente = await usuarioController.obtenerUsuarioPorNombre(nombre);
+        // if (usuarioExistente) {
+        //     return res.status(400).send('El usuario ya está registrado');
+        // }
 
         // Hash de la contraseña
         const password_hash = await authMiddleWare.getHash(password);

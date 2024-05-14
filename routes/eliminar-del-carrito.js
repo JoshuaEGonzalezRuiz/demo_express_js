@@ -10,11 +10,11 @@ router.post('/:id', async (req, res) => {
     const itemIndex = carrito.findIndex(item => parseInt(item.id) === idProducto);
     if (itemIndex !== -1) {
       const removedItem = carrito.splice(itemIndex, 1)[0];
-      await carritoController.quitarProducto(req.user.id, idProducto);
+      await carritoController.quitarProducto(req.user.id, idProducto, req.cookies.token);
       const producto = await productoController.obtenerPorId(idProducto);
       if (producto) {
         producto.cantidad += removedItem.cantidad;
-        await productoController.actualizarCantidad(producto.cantidad, idProducto);
+        await productoController.actualizarCantidad(producto.cantidad, idProducto, req.cookies.token);
       }
     }
     res.locals.carrito = carrito;

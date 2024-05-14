@@ -19,8 +19,8 @@ router.post('/:id/:cantidad', async (req, res) => {
                 carrito = carrito.filter(item => item.id !== parseInt(idProducto));
             }
             // Actualizar la cantidad del producto en la base de datos
-            await carritoController.actualizarCantidad(cantidadNueva, req.user.id, idProducto);
-            await productoController.actualizarCantidad(producto.cantidad, idProducto);
+            await carritoController.actualizarCantidad(cantidadNueva, req.user.id, idProducto, req.cookies.token);
+            await productoController.actualizarCantidad(producto.cantidad, idProducto, req.cookies.token);
         }
     }
     res.locals.carrito = carrito;

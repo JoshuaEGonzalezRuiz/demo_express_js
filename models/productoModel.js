@@ -40,9 +40,15 @@ async function obtenerPorId(id) {
   }
 }
 
-async function actualizarCantidad(nuevaCantidad, productoId) {
+async function actualizarCantidad(nuevaCantidad, productoId, token) {
+  const axiosConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+
   try {
-    await axios.put(`${process.env.BASE_URL}/productos/actualizar-cantidad`, { nuevaCantidad, productoId });
+    await axios.put(`${process.env.BASE_URL}/productos/actualizar-cantidad`, { nuevaCantidad, productoId }, axiosConfig);
     console.log('Cantidad de producto actualizada');
   } catch (error) {
     console.error('Error al actualizar la cantidad del producto:', error);

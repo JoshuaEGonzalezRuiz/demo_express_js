@@ -13,6 +13,9 @@ const cookieParser = require('cookie-parser');
 const authMiddleWare = require('./middlewares/authMiddleware');
 const carritoController = require('./controllers/carritoController');
 
+// Variable global para almacenar el carrito en caché
+let carritoCache = {};
+
 //Configura Cookie Parser
 app.use(cookieParser());
 
@@ -38,13 +41,9 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
   async (username, password, done) => {
     try {
-      const user = await usuarioController.obtenerUsuarioPorNombre(username);
+      const user = await usuarioController.logearUsuario(username, password);
       if (!user) {
-        return done(null, false, { message: 'Usuario incorrecto.' });
-      }
-      const passwordMatch = await authMiddleWare.comparePassword(password, user.password_hash);
-      if (!passwordMatch) {
-        return done(null, false, { message: 'Contraseña incorrecta.' });
+        return done(null, false, { message: 'Usuario o contraseña incorrecto' });
       }
       return done(null, user);
     } catch (err) {
@@ -55,19 +54,12 @@ passport.use(new LocalStrategy(
 
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(async (id, done) => {
-  await usuarioController.obtenerUsuarioPorId(id).then((user) => {
-    done(null, user);
-  }).catch((error) => {
-    done(error, null);
-  });
+passport.deserializeUser(async (user, done) => {
+  done(null, user);
 });
-
-// Variable global para almacenar el carrito en caché
-let carritoCache = {};
 
 // Middleware para obtener el carrito del usuario desde la caché
 app.use(async (req, res, next) => {
@@ -78,7 +70,7 @@ app.use(async (req, res, next) => {
       res.locals.carrito = carritoCache[req.user.id];
     } else {
       // Obtener el carrito de la base de datos
-      let carritoDB = await carritoController.obtenerProductos(req.user.id);
+      let carritoDB = await carritoController.obtenerProductos(req.user.id, req.cookies.token);
       // Almacenar el carrito en la caché
       carritoCache[req.user.id] = carritoDB;
       // Utilizar el carrito de la base de datos

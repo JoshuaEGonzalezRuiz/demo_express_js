@@ -9,18 +9,18 @@ class Usuario {
     }
 }
 
-async function registrarUsuario(nombre, email, password) {
+async function registrarUsuario(dataSegura) {
     try {
-        await axios.post(`${process.env.BASE_URL}/usuarios/registrar`, { nombre, email, password });
+        await axios.post(`${process.env.BASE_URL}/usuarios/registrar`, { dataSegura });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
         throw error;
     }
 }
 
-async function obtenerPorNombre(nombre) {
+async function logearUsuario(dataSegura) {
     try {
-        const response = await axios.get(`${process.env.BASE_URL}/usuarios/${nombre}`);
+        const response = await axios.post(`${process.env.BASE_URL}/usuarios/login`, {dataSegura});
         const usuario = response.data;
         return new Usuario(usuario.id, usuario.nombre, usuario.email, usuario.password_hash);
     } catch (error) {
@@ -29,19 +29,7 @@ async function obtenerPorNombre(nombre) {
     }
 }
 
-async function obtenerPorId(id) {
-    try {
-        const response = await axios.get(`${process.env.BASE_URL}/usuarios/id/${id}`);
-        const usuario = response.data;
-        return new Usuario(usuario.id, usuario.nombre, usuario.email, usuario.password_hash);
-    } catch (error) {
-        console.error('Error al obtener usuario por ID:', error);
-        throw error;
-    }
-}
-
 module.exports = {
     registrarUsuario,
-    obtenerPorNombre,
-    obtenerPorId
+    logearUsuario
 };
